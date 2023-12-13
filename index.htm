@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vagas - Estacionamento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .parking-space {
+      width: 300px;
+      margin: 10px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<h1 style="text-align: center;">Vagas - Estacionamento</h1>
+
+<div id="parking1" class="parking-space">
+  <h2>Vaga 1</h2>
+  <span id="status1"> </span>
+</div>
+<div id="parking2" class="parking-space">
+  <h2>Vaga 2</h2>
+  <span id="status2"> </span>
+</div>
+<div id="parking3" class="parking-space">
+  <h2>Vaga 3</h2>
+  <span id="status3"> </span>
+</div>
+
+<script>
+    function getData() {
+  const url = 'https://api.tago.io/data';
+  const headers = {
+    'Content-Type': 'application/json',
+    'Device-Token': 'a3414927-2483-44c9-b408-4217454fc280'
+  };
+  fetch(url, {
+    method: 'GET',
+    headers: headers
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.status}`);
+      }
+      return response.json();
+    }).then(data=>{
+        console.log(data)
+            const estacionamento1 = data.result[0]
+            const estacionamento2 = data.result[1]
+            const estacionamento3 = data.result[2]
+            document.querySelector('#status1').innerHTML=estacionamento1.value
+            document.querySelector('#status2').innerHTML=estacionamento2.value
+            document.querySelector('#status3').innerHTML=estacionamento3.value
+    })}
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Função para obter dados da API
+    getData()
+    })
+
+    setInterval(getData,10000)
+
+
+   
+//     // Função para atualizar o conteúdo da vaga de estacionamento
+//     const updateParkingSpace = (parkingId, data) => {
+//       const parkingSpace = document.getElementById(parking${parkingId});
+//       if (parkingSpace) {
+//         parkingSpace.innerHTML = `
+//           <h2>Vaga ${parkingId}</h2>
+//           <p>Disponibilidade: ${data.disponibilidade}</p>
+//           <p>Horário de Funcionamento: ${data.horario}</p>
+//           <p>Preço: ${data.preco}</p>
+//         `;
+//       }
+//     };
+
+//     // Obter dados para cada vaga de estacionamento
+//     fetchData(1);
+//     fetchData(2);
+//     fetchData(3);
+//   });
+
+
+</script>
+
+</body>
+</html>
